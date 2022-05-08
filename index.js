@@ -3,20 +3,25 @@ const url=require('url')
 const path =require('path');
 
 
+require ( 'electron-reload' ) ( __dirname ,  {  
+  } ) ;
+
 
 let mainWindow
 
 app.on('ready',()=>{
-    mainWindow=new BrowserWindow({});
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname,'views/index.html'),
-        protocol:'file',
-        slashes:true
-    }))
+    mainWindow=new BrowserWindow({
+        width:900,
+        height:700
+    });
+    
+    mainWindow.loadURL(`file://${__dirname}/views/index.html`)
 
     const mainMenu=null
     Menu.setApplicationMenu(mainMenu)
 })
+
+
 
 
 const templateMenu=[
