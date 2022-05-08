@@ -1,6 +1,7 @@
 const{app, BrowserWindow, Menu}=require('electron');
 const url=require('url')
 const path =require('path');
+const vinculo=document.querySelector()
 
 
 require ( 'electron-reload' ) ( __dirname ,  {  
@@ -19,6 +20,8 @@ app.on('ready',()=>{
 
     const mainMenu=null
     Menu.setApplicationMenu(mainMenu)
+
+
 })
 
 
