@@ -66,16 +66,22 @@ body .contenido{
 }
 
 /* miembros */
+
+#miembros{
+    width: 700px;
+    margin-left: 30px;
+}
+
+
 #title{
     display: flex; 
     flex-wrap: nowrap;
-    width: 500px;
+    width: 100%;
     margin-top: 250px;
     padding: 10px;
     justify-content: space-between;
     align-items: center;
     align-content: center;
-    margin-left: 80px;
 }
 
 #title h3{
@@ -92,3 +98,66 @@ svg{
     padding: 2px;
     margin-bottom: 5px;
  }
+
+ #lista,#listaCompleta{
+     margin: 0px auto;
+     padding: 0px;
+
+ }
+
+ #ultitulos li{
+     width: 100%;
+ }
+ #lista svg,#listaCompleta svg{
+     width: 50px;
+     margin: 10px;
+     line-height: 17px;
+     padding: 0px;
+     margin
+}
+ #lista li,#listaCompleta li{
+     padding: 0px;
+     overflow: none;
+     margin: 5px;
+     list-style: none;
+     font-size: 12px;
+     line-height: 17px;
+     align-content: center;
+     align-items: center;
+     width:100%;
+ }
+ #lista h3{
+    font-size: 14px;
+}
+
+#lista ul li{
+    margin: ;
+    overflow: hidden;
+}
+
+#column{
+    width: 100%;
+}
+
+#lista button{
+    font-size: 12px;
+    margin: 10px;
+    
+}
+
+
+/* pagClientes */
+
+body .contenidoclientes{
+    flex-basis: 85%;
+    background-color: rgb(224, 224, 224);
+    padding: 40px;
+}
+#titleclientes{
+    display: flex; 
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}

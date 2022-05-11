@@ -58,7 +58,15 @@ ipcMain.on('agregarCliente', (event) => {
         height:500,
         parent:mainWindow,
         modal:true,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        }
     })
 
     addClientWindow.loadFile('views/windowAddClient.html')
+})
+
+ipcMain.on('actpri', (event) => {
+    mainWindow.reload()
 })
