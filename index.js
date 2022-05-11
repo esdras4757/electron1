@@ -7,6 +7,7 @@ require ( 'electron-reload' ) ( __dirname ,  {
 
 
 let mainWindow
+let secondWindow
 
 app.on('ready',()=>{
     mainWindow=new BrowserWindow({
@@ -25,6 +26,8 @@ app.on('ready',()=>{
     // Menu.setApplicationMenu(mainMenu)
 
 })
+
+
 
 
 
@@ -70,3 +73,14 @@ ipcMain.on('agregarCliente', (event) => {
 ipcMain.on('actpri', (event) => {
     mainWindow.reload()
 })
+ipcMain.on('agregarNota', (event) => {
+    addNotaWindow=new BrowserWindow({
+        width:500,
+        height:500,
+       
+    })
+
+    addNotaWindow.loadFile('views/addNota.html')
+})
+
+                  
