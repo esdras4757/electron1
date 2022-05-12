@@ -2,6 +2,7 @@
 const electron=require("electron");
 const ipc=electron.ipcRenderer
 const buttonAddUser=document.querySelector('#btnAgregarCliente')
+
 let listaclientes=JSON.parse(localStorage.getItem('clientes'))
 const buttonAddNota = document.querySelector('#agregar');
 
