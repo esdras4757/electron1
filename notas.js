@@ -1,22 +1,30 @@
-//variables
-//const electron=require("electron");
-//const ipc=electron.ipcRenderer
-const nota = document.querySelector('#nota-nueva');
-const guardarNota = document.querySelector('#btnota');
+import {ui, notas} from "./app.js"
+
+const nota = document.querySelector('#formularioNota');
+const notaNueva = document.querySelector('#nota-nueva');
 
 //event LIsteners
 document.addEventListener('DOMContentLoaded',()=>{
     
-    console.log('listooo');
+    console.log('cargado');
     eventListeners();
 })
 
 function eventListeners(){
-    guardarNota.addEventListener('submit', nuevaNota);
+    nota.addEventListener('submit', nuevaNota);
+    
 }
 
 //funciones
 function nuevaNota(e){
     e.preventDefault();
-    console.log('guardando')
+
+    if(notaNueva.value === ""){    
+        ui.mensajeError('No se puede guardar una nota vacia' , 'error');
+        return
+    }
+
+    notas.agregando(notaNueva.value)
+    ui.mensajeError('Nota agregada correctamente','success');
+    ui.mostrarNotas();
 }

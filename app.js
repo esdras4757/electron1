@@ -4,6 +4,8 @@ const ipc=electron.ipcRenderer
 const buttonAddUser=document.querySelector('#btnAgregarCliente')
 
 let listaclientes=JSON.parse(localStorage.getItem('clientes'))
+let listaNotas=JSON.parse(localStorage.getItem('notas'))
+
 const buttonAddNota = document.querySelector('#agregar');
 const buttonEditarCliente = document.querySelector('#lista');
 const buttonEditarCliente2=document.querySelector('#listaCompleta')
@@ -22,6 +24,10 @@ document.addEventListener('DOMContentLoaded',()=>{
         listaclientes=[]
         
     }
+    if(!listaNotas){
+        listaNotas=[]
+    }
+   
 
     if(cantidadClientes){
         cantidadClientes.textContent=listaclientes.length
@@ -84,6 +90,29 @@ function eventListeners(){
 
 class UI{
     constructor(){
+    }
+
+    mensajeError(mensaje , tipo){
+        
+        const nota = document.querySelector('#formularioNota')
+
+        const msjhtml= document.createElement('div');
+        msjhtml.classList.add('p-3', 'm-3','text-center','alert')
+        msjhtml.textContent=mensaje
+
+        if (tipo=='error') {
+            msjhtml.classList.add('alert-danger')
+        }
+        else{
+            msjhtml.classList.add('alert-success')
+        }
+      
+            nota.insertBefore(msjhtml , document.querySelector('#btnota'))
+        
+        setTimeout(() => {
+            msjhtml.remove()
+        }, 2000);
+        
     }
 
     alerta(mensaje,tipo){
@@ -265,9 +294,26 @@ class Clientes{
     }
 }
 
+class Notas{
+    constructor(){
+
+    }
+    agregando(notaNueva){
+        const objetoNota={
+            id: Date.now(),
+            notaNueva
+        }
+
+        listaNotas.push(objetoNota)
+        localStorage.setItem('notas',JSON.stringify(listaNotas))
+    }
+   
+}
+
 
 export const cliente= new Clientes();
 export const ui=new UI()
+export const notas = new Notas();
 // instancia
 
 // funciones
