@@ -78,11 +78,11 @@
         <!--INICIO TARJETAS-->
             <div id="tarjetas" class="row row-cols-1 row-cols-md-5 g-4 m-1">
                 <div class="col">
-                    <a class="text-white fw-bold titulo" href="indice2.html">
+                    <a class="text-white fw-bold titulo" href="clientes.html">
                         <div class="card">
                             <div class="card-body card-clientes ">
                                 CLIENTES
-                                <p class="cantidad fw-normal fs-3 ">20 </p>
+                                <p class="cantidadClientes fw-normal fs-3 "></p>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="representacion" fill="none"
                                     viewBox="0 0 24 24" stroke="white" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -95,9 +95,9 @@
                 <div class="col h-auto">
                     <a class="text-white fw-bold titulo" href="">
                         <div class="card">
-                            <div class="card-body card-ingresos ">
+                            <div class="card-body card-ingresos " >
                                 INGRESOS
-                                <p class="cantidad fw-normal  fs-3 ">$10000</p>
+                                <p class="cantidad fw-normal  fs-3 " id="ingresos"></p>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="representacion" fill="none"
                                     viewBox="0 0 24 24" stroke="white" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -152,6 +152,7 @@
                         </div></a>
                 </div> 
             </div>
+        
         <!--FIN TARJETAS-->
 
        <div id="parte2">
@@ -165,17 +166,17 @@
                             class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path
                                 d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
-                        </svg> Add</button>
+                        </svg> Agregar</button>
                 </div>
-                <ul id="lista">
-                    <ul id="ultitulos" class="d-flex">
+                <ul id="lista" >
+                    <ul id="tituloslist" class="d-flex p-0 w-75" >
                         <li></li>
                         <li>nombre</li>
                         <li>apellido</li>
-                        <li>correo</li>
                         <li>telefono</li>
-                        <li>nombre</li>
+                        <li>inversion</li>
                     </ul>
+                        
                 </ul>
                 <a href="clientes.html" class="text-center bg-black m-2 text-decoration-none text-white d-block p-2">Ver
                     todos</a>
@@ -194,6 +195,7 @@
                                 d="M11.75 4.5a.75.75 0 01.75.75V11h5.75a.75.75 0 010 1.5H12.5v5.75a.75.75 0 01-1.5 0V12.5H5.25a.75.75 0 010-1.5H11V5.25a.75.75 0 01.75-.75z">
                             </path>
                         </svg> Nota</button>
+            </div>
             </div>
        </div id="parte2">
 

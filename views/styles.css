@@ -75,12 +75,16 @@ aside ul li a svg{
 #miembros{
     flex-basis: 45%;
     padding: 20px;
+    border: 1px solid #ccc;
+    background-color: white;
 }
 
 #accesoNotas{
     flex-basis: 45%;
     
     padding: 20px;
+    border: 1px solid #ccc;
+    background-color: white;
 }
 
 #parte2{
@@ -118,15 +122,11 @@ svg{
     margin-bottom: 5px;
  }
 
- #lista,#listaCompleta{
+ #lista{
      margin: 0px auto;
      padding: 0px;
-
  }
 
- #ultitulos li{
-     width: 100%;
- }
  #lista svg,#listaCompleta svg{
      width: 50px;
      margin: 10px;
@@ -134,10 +134,10 @@ svg{
      padding: 0px;
      margin
 }
- #lista li,#listaCompleta li{
+
+ #lista li,#listaCompleta li,#tituloslist2 li{
      padding: 0px;
-     overflow: none;
-     margin: 5px;
+     overflow: hidden;
      list-style: none;
      font-size: 12px;
      line-height: 17px;
@@ -145,35 +145,75 @@ svg{
      align-items: center;
      width:100%;
  }
+ #listaCompleta,#tituloslist2{
+     padding: 10px;
+     background-color: white;
+     overflow: auto;
+ }
+
+
+ #listaCompleta>li,#tituloslist2>li{
+    border-bottom: 1px solid black;
+    padding: 2px;
+}
+
+
+#titulosdelista{
+    width: 100%;
+    background-color: white;
+    overflow: hidden;
+}
+
+#tituloslist2{
+    width: 88%;
+    margin-left: -20px;
+ }
+
+ #tituloslist2 li{
+    border-bottom: none;
+    font-weight: bold;
+    text-transform: uppercase;
+
+ }
+
  #lista h3{
     font-size: 14px;
 }
 
 #lista ul li{
-    margin: ;
     overflow: hidden;
+}
+#lista ul li:hover{
+    transform: tra;
 }
 
 #column{
     width: 100%;
 }
 
-#lista button{
+#lista button,#listaCompleta button{
     font-size: 12px;
     margin: 10px;
     
 }
-
+#tituloslist{
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: -10px;
+}
 
 /* pagClientes */
 
 body .contenidoclientes{
     flex-basis: 85%;
     background-color: rgb(224, 224, 224);
-    padding: 40px;
+    padding: 60px;
+    height: 100vh;
+    overflow: scroll;
 }
 #titleclientes{
     display: flex; 
+    padding: 20px;
     flex-wrap: nowrap;
     width: 100%;
     justify-content: space-between;
