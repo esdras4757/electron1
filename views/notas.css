@@ -1,3 +1,10 @@
+.cuerpo{
+    display: flex;
+    flex-flow: column nowrap;
+    width: 85%;
+    background-color: rgb(224, 224, 224);
+    overflow: hidden;
+}
 #agregar{
     margin-left: 1450px;
     margin-top: -100px;
@@ -15,7 +22,7 @@
 
 }
 
-#buscar{
+#buscador{
     margin-left: 20px;
     width: 1500px;
 }
