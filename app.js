@@ -19,6 +19,7 @@ const ingresos = document.querySelector('#ingresos')
 const buscar = document.querySelector('#buscar')
 const ulLista = document.querySelector('#lista')
 const ulLista2 = document.querySelector('#listaCompleta')
+const buscador = document.querySelector('#buscador')
 
 // documento listo 
 
@@ -117,6 +118,10 @@ function eventListeners() {
 
     if(BtnEditarNotas2){
         BtnEditarNotas2.addEventListener('click' , eliminarNota);
+    }
+
+    if(buscador){
+        buscador.addEventListener('keyup' , buscarNotas);
     }
 
 
@@ -524,6 +529,14 @@ function eliminarNota(e){
     }
    
     
+}
+
+function buscarNotas(e){
+    console.log(e.target.value)
+    const buscandoNotas = listaNotas.filter((element) =>{
+        return element.notaNueva.toUpperCase().includes(e.target.value.toUpperCase());
+    })
+    ui.mostrarnotas(buscandoNotas.reverse());
 }
 
 function limpiarhtml() {
