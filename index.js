@@ -1,6 +1,8 @@
 const{app, BrowserWindow, Menu , ipcMain}=require('electron');
 const url=require('url')
 const path =require('path');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
 
 require ( 'electron-reload' ) ( __dirname ,  {  
   } ) ;
@@ -22,6 +24,8 @@ app.on('ready',()=>{
     mainWindow.loadURL(`file://${__dirname}/views/index.html`)
 
     mainWindow.maximize();
+
+    
 
     // const mainMenu=Menu.buildFromTemplate([])
     // Menu.setApplicationMenu(mainMenu)
@@ -69,6 +73,8 @@ ipcMain.on('agregarCliente', (event) => {
     })
 
     addClientWindow.loadFile('views/windowAddClient.html')
+
+    
 })
 
 ipcMain.on('actpri', (event) => {
@@ -103,6 +109,4 @@ ipcMain.on('editarCliente', (event,mensaje) => {
        addClientWindow.webContents.send('recibirId',mensaje)
         }, 100);
     })
-})
-
-                  
+})         

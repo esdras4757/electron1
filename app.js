@@ -5,7 +5,9 @@ const buttonAddUser=document.querySelector('#btnAgregarCliente')
 
 let listaclientes=JSON.parse(localStorage.getItem('clientes'))
 let listaNotas=JSON.parse(localStorage.getItem('notas'))
+let diaFromLS=localStorage.getItem('dia')
 
+var changeDivisa=document.querySelector('#changeDivisa')
 const buttonAddNota = document.querySelector('#agregar');
 const buttonEditarCliente = document.querySelector('#lista');
 const buttonEditarCliente2=document.querySelector('#listaCompleta')
@@ -14,11 +16,51 @@ const ingresos=document.querySelector('#ingresos')
 const buscar=document.querySelector('#buscar')
 const ulLista=document.querySelector('#lista')
 const ulLista2=document.querySelector('#listaCompleta')
-
+var divisaTolocalstorage={};
+const dia= new Date()
+const numeroDelDia= dia.getDay()
+var valordivisa=0;
 // documento listo 
 
 document.addEventListener('DOMContentLoaded',()=>{
+
+// validacion dia de consulta de divisa 
     
+
+
+// inicio consumo de api para cambio de divisa
+
+    if(!diaFromLS||diaFromLS!=numeroDelDia){
+        console.log(diaFromLS)
+        const meta={
+            'apikey':'WZqdsSUy3oAPlQvJlaxfaSopwt7khwGx'
+        }
+    
+        var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: meta
+        };
+    
+        fetch("https://api.apilayer.com/exchangerates_data/convert?to=MXN&from=USD&amount=500", requestOptions)
+        .then(response => response.text())
+        .then(result =>{
+            divisaTolocalstorage=result;
+            localStorage.setItem('divisa',divisaTolocalstorage);
+            console.log(divisaTolocalstorage);
+        } )
+        .then(localStorage.setItem('dia',numeroDelDia))
+        .catch(error => console.log('error', error));
+
+
+    }
+
+    
+    
+
+// fin consumo de api para cambio de divisa
+
+
     console.log('listooo');
     if(!listaclientes){
         listaclientes=[]
@@ -52,15 +94,25 @@ document.addEventListener('DOMContentLoaded',()=>{
     let total=0
     if (ingresos) {
         listaclientes.forEach(element => {
-            total += parseFloat(element.inversion)
+            if(element.divisa=='USD'){
+                var valorConvertidoMXN=(element.inversion*consultarValorDolar()).toFixed(2)
+                total += parseFloat(valorConvertidoMXN)
+            }
+            else{
+                total += parseFloat(element.inversion)
+            }
+            
         });
-        ingresos.textContent=`$${total}`;
+        ingresos.textContent=`${total} MXN`;
     }
     
 
     
     eventListeners();
     ui.mostrarClientes()
+
+    consultarValorDolar()
+    
 })
 // eventListeners
 
@@ -82,6 +134,7 @@ function eventListeners(){
     if(buscar){
         buscar.addEventListener('input',buscarCliente)
     }
+    
     
 }
 
@@ -138,6 +191,8 @@ class UI{
     }
 
     mostrarClientes(lista=listaclientes){
+
+        const dolar=consultarValorDolar();
         
             let listaclientesparcial
         
@@ -147,7 +202,12 @@ class UI{
 
             if (ulLista) {
                 listaclientesparcial.reverse().forEach(cliente => {
-            
+                    
+                    if (cliente.divisa=='USD') {
+                        var clien=(cliente.inversion*consultarValorDolar()).toFixed(2);
+                    }else{
+                        clien=(cliente.inversion/1).toFixed(2);
+                    }
             
                     const clientehtml=document.createElement('li')
                     clientehtml.classList.add('list-unstyled','d-flex')
@@ -156,10 +216,11 @@ class UI{
                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                   </svg>
                     <ul id="column" class="d-flex">
-                            <li id="nombre">${cliente.nombre}</li> 
+                            <li id="nombre" data-id=${cliente.id}>${cliente.nombre}</li> 
                             <li id="apellido">${cliente.apellido} </li> 
                             <li id="numero">${cliente.numero} </li> 
-                            <li id="inversion"> $${cliente.inversion} </li> 
+                            <li id="inversion"><a>${clien}</a><select class="border-0 mr-1 changeDivisa" id="changeDivisa"><option >MXN</option><option>USD</option></select> </li> 
+                            <li id="idv" class="d-none">${cliente.id} </li> 
                     </ul>
                     <button class="editar btn btn-primary" data-id=${cliente.id}>editar</button>
                     <button class="eliminar btn btn-danger" data-id=${cliente.id}>eliminar</button>
@@ -190,7 +251,12 @@ class UI{
                     return
                 }
                 lista.reverse().forEach(cliente => {
-            
+                    
+                    if (cliente.divisa=='USD') {
+                        var clien=(cliente.inversion*consultarValorDolar()).toFixed(2);
+                    }else{
+                        clien=(cliente.inversion/1).toFixed(2);
+                    }
             
                     const clientehtml=document.createElement('li')
                     clientehtml.classList.add('list-unstyled','d-flex')
@@ -199,12 +265,12 @@ class UI{
                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                   </svg>
                     <ul id="column" class="d-flex">
-                            <li id="nombre">${cliente.nombre}</li> 
+                            <li id="nombre"  data-id=${cliente.id}>${cliente.nombre}</li> 
                             <li id="apellido">${cliente.apellido} </li> 
                             <li id="pais">${cliente.pais} </li>
                             <li id="numero">${cliente.numero} </li> 
                             <li id="correo">${cliente.correo} </li> 
-                            <li id="inversion"> $${cliente.inversion} </li> 
+                            <li id="inversion"> <a>${clien}</a><select class="border-0 changeDivisa" id="changeDivisa"><option >MXN</option><option>USD</option></select> </li> 
                             <li id="modalidad">${cliente.modalidad} </li>
                             <li id="forma">${cliente.forma} </li>
                     </ul>
@@ -218,9 +284,21 @@ class UI{
                      ulLista2.appendChild(clientehtml)
                     }
                      
+
+                    
                  });
+
+                 
+                    
                 
             }
+          
+            
+            // changeDivisa=document.querySelector('#changeDivisa')
+
+            // if (changeDivisa) {
+            //     changeDivisa.addEventListener('change',switchDLSMXN)
+            // }
             
     }
 }
@@ -229,7 +307,9 @@ class Clientes{
     constructor(){
     }
 
-    agregar(nombre,apellido,pais, numero,correo, inversion,modalidad, forma){
+    agregar(nombre,apellido,pais, numero,correo, inversion,divisa,modalidad, forma){
+
+        
         const objetoCliente={
             nombre,
             apellido,
@@ -237,6 +317,7 @@ class Clientes{
             numero,
             correo,
             inversion,
+            divisa,
             modalidad,
             forma,
             id:Date.now()
@@ -248,7 +329,7 @@ class Clientes{
         console.log(listaclientes)
     }
 
-    editar(nombre,apellido,pais,numero,correo,inversion,modalidad,forma,idn){
+    editar(nombre,apellido,pais,numero,correo,inversion,divisa,modalidad,forma,idn){
         const ClientesLocal=JSON.parse(localStorage.getItem('clientes'))
 
         console.log(ClientesLocal)
@@ -260,6 +341,7 @@ class Clientes{
             numero,
             correo,
             inversion,
+            divisa,
             modalidad,
             forma,
             id:idn
@@ -332,7 +414,11 @@ if(e.target.classList.contains('editar')){
 }
 if(e.target.classList.contains('eliminar')){
     cliente.eliminar(e.target.dataset.id)
-}}
+}
+if(e.target.classList.contains('changeDivisa')){
+    switchDLSMXN(e)
+}
+}
 
 function buscarCliente(e){
 
@@ -349,4 +435,41 @@ function limpiarhtml(){
     while(ulLista2.firstChild){
         ulLista2.removeChild(ulLista2.firstChild)
     }
+}
+
+function consultarValorDolar(){
+    let dolar=JSON.parse(localStorage.getItem('divisa')).info.rate
+    return dolar;
+}
+
+function switchDLSMXN(e){
+    var valor;
+    const id=e.target.parentElement.parentElement.querySelector('#nombre').dataset.id
+
+    const lista= JSON.parse(localStorage.getItem('clientes')) 
+    const listaFilter=lista.filter((element) => {
+        return element.id==id
+    })
+
+    if (listaFilter[0].divisa=='USD') {
+        
+        valor=listaFilter[0].inversion*consultarValorDolar()
+    }
+    else{
+        valor=listaFilter[0].inversion
+    }
+
+
+   if (e.target.value=='USD') {
+        e.target.parentElement.querySelector('a').textContent=(valor/consultarValorDolar()).toFixed(2)
+
+   }
+   if (e.target.value=='MXN') {
+        
+        e.target.parentElement.querySelector('a').textContent=(valor/1).toFixed(2)
+    }
+    
+   
+
+
 }

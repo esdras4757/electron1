@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="../../modules/node_modules/bootstrap/dist/css/bootstrap.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
@@ -48,12 +47,17 @@
               </div>
             </div>
             <div class="col-md-6">
-                <label for="inversion" class="form-label">Inversión</label>
-                <input class="form-control" type="tel" name="inversion" id="inversion">
-                <div class="invalid-feedback">
-                  Please select a valid state.
-                </div>
-            </div>
+              <label for="inversion" class="form-label">Inversión</label>
+              <div class="d-flex">
+                <input class="form-control w-75" type="tel" name="inversion" id="inversion">
+                <select class="form-select w-25" id="divisa" name="ss" title="a" required>
+                  <option selected value="MXN">MXN</option>
+                  <option value="USD">USD</option>
+                </select>
+              </div>
+              <div class="invalid-feedback">
+              </div>
+          </div>
             <div class="col-md-12">
                 <label for="modalidad" class="form-label">Modalidad de inversión</label>
                 <select class="form-select" id="modalidad" required>

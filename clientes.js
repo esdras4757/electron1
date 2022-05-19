@@ -8,6 +8,7 @@ const pais=document.querySelector('#pais')
 const numero=document.querySelector('#numero')
 const correo=document.querySelector('#correo')
 const inversion=document.querySelector('#inversion')
+const divisa=document.querySelector('#divisa')
 const modalidad=document.querySelector('#modalidad')
 const forma=document.querySelector('#forma')
 let idn;
@@ -44,12 +45,12 @@ function clientenuevo(e){
 
     if(modoEdicion==false){
         
-        cliente.agregar(nombre.value,apellido.value,pais.value,numero.value,correo.value,inversion.value,modalidad.value,forma.value)
+        cliente.agregar(nombre.value,apellido.value,pais.value,numero.value,correo.value,inversion.value,divisa.value,modalidad.value,forma.value)
         ui.alerta('Cliente agregado correctamente','success')
         formulario.reset();
     }
     else{
-        cliente.editar(nombre.value,apellido.value,pais.value,numero.value,correo.value,inversion.value,modalidad.value,forma.value,idn)
+        cliente.editar(nombre.value,apellido.value,pais.value,numero.value,correo.value,inversion.value,divisa.value,modalidad.value,forma.value,idn)
         ui.alerta('Cambios Guardados correctamente','success')
         formulario.reset();
     }
@@ -65,7 +66,7 @@ function editarCliente(e){
         return
     }
 
-    cliente.agregar(nombre.value,apellido.value,pais.value,numero.value,correo.value,inversion.value,modalidad.value,forma.value)
+    cliente.agregar(nombre.value,apellido.value,pais.value,numero.value,correo.value,inversion.value,divisa.value,modalidad.value,forma.value)
     ui.alerta('Cliente agregado correctamente','success')
     ui.mostrarClientes()
     ipc.send('actpri')
@@ -90,6 +91,7 @@ function llenarFormulario(id){
     numero.value=formlocalstorageFilter[0].numero;
     correo.value=formlocalstorageFilter[0].correo;
     inversion.value=formlocalstorageFilter[0].inversion;
+    divisa.value=formlocalstorageFilter[0].divisa;
     forma.value=formlocalstorageFilter[0].forma;
     numero.value=formlocalstorageFilter[0].numero;
     modalidad.value=formlocalstorageFilter[0].modalidad;
