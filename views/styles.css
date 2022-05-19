@@ -17,7 +17,7 @@ body aside{
     flex-direction: column;
     flex-basis: 15%;
     border: 1px solid black;
-    height: 100vh;
+    height: auto;
     color: white;
     padding: 5px;
     padding-top: 20px;
@@ -273,4 +273,10 @@ text-align: center;
  .contenido .card-recuerda{
      height: 275px;
     background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%);
+ }
+
+ #ListaNotas{
+        margin: 30px;
+        
+
  }
