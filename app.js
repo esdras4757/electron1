@@ -379,7 +379,7 @@ class UI {
                 const notahtml = document.createElement('li')
                 notahtml.classList.add('list-unstyled', 'd-inline-block')
                 notahtml.innerHTML = `
-                <div class="row row-cols-1 row-cols-md-1 g-2 m-3">
+                <div class="card-group m-1">
                     
                          <div class="card border-warning">
                              <div class="card-body">
@@ -388,8 +388,8 @@ class UI {
                              <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zm6 8.5a1 1 0 0 1 1-1h4.396a.25.25 0 0 1 .177.427l-5.146 5.146a.25.25 0 0 1-.427-.177V10.5z"/>
                            </svg></h3>
                             <p class="card-text">${nota.notaNueva}</p>
-                                <button class="editar btn btn-success m-2" data-id=${nota.id}>Editar</button>
-                                <button class="eliminar btn btn-danger m-2" data-id=${nota.id}>Eliminar</button>
+                                <button class="editar btn btn-success m-1" data-id=${nota.id}>Editar</button>
+                                <button class="eliminar btn btn-danger m-1" data-id=${nota.id}>Eliminar</button>
                          </div>
                     
                 </div>
@@ -428,7 +428,7 @@ class UI {
                 const notahtml = document.createElement('li')
                 notahtml.classList.add('list-unstyled', 'd-inline-block')
                 notahtml.innerHTML = `
-                <div class="row row-cols-1 row-cols-md-1 g-2 m-3">
+                <div class="card-group m-1">
                     
                          <div class="card border-warning">
                              <div class="card-body">
