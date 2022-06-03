@@ -17,7 +17,7 @@ body aside{
     flex-direction: column;
     flex-basis: 15%;
     border: 1px solid black;
-    height: 100vh;
+    height: auto;
     color: white;
     padding: 5px;
     padding-top: 20px;
@@ -282,3 +282,181 @@ text-align: center;
  #calendar{
     height: 100vh;
  }
+
+ #tarjetas-ingresos{
+    margin-top: 50px;
+    margin-left: 30px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+   
+ }
+ #ingresosmxn{
+    width: 725px;
+    height: 300px;
+    margin-right: 200px;
+    background-color: #EFDDD3;
+}
+
+#egresosmxn{
+    width: 740px;
+    height: 300px;
+    margin-right: 200px;
+    background-color: #E9C495;
+}
+
+.ingresostitulo{
+    font-size: 35px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:rgb(133, 64, 14);
+}
+.representacioningre{
+    margin-left: 450px ;
+    width: 250px;
+    margin-bottom: 0px;
+    color: rgb(39, 39, 39);
+}
+.dinero{
+    width: auto;
+    font-size: 25px;
+    color: #614209;
+    margin-left: 40px;
+    margin-top: 0px;
+}
+#tablas{
+    margin-top: 50px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
+
+#agregarIngresos{
+    flex-basis: 45%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+.svg-ingresos{
+    width: 60px;
+}
+
+
+
+#agregarEgresos{
+    flex-basis: 45%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+#buscador-egreso{
+    margin-left: 10px;
+    width: 600px;
+}
+
+#buscador-ingresos{
+    margin-left: 10px;
+    width: 600px;
+}
+
+#tituloslist3{
+    list-style: none;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+#tituloslist3 li{
+    width: 20%;
+}
+
+#listaegresos{
+    
+}
+#listegresos li{
+    list-style: none;
+    margin-left: 20px;
+    margin-right: 45px;
+    margin-top: 15px;
+    border-bottom: 1px solid black;
+}
+
+#gastol{
+    width: 80%;
+    height: 80px;
+    margin-left: 70px;
+    margin-top: 30px;
+    border: 1px solid black ;
+    border-radius: 10px;
+    background-color: #ebe4dd;
+
+}
+
+#gastol p{
+    margin-top: 25px;
+    text-align: center;
+}
+
+.runing #gastol{
+    display: none;
+}
+
+#lista-ingresos li{
+    list-style: none;
+    margin-left: 20px;
+    margin-right: 45px;
+    margin-top: 15px;
+    border-bottom: 1px solid black;
+}
+
+#liingresosclientes li{
+    list-style: none;
+    margin-left: 20px;
+    margin-right: 45px;
+    margin-top: 15px;
+    border-bottom: 1px solid black;
+}
+#grafica{
+    background-color: #dbcab4;
+    height: 700px;
+    margin-left: 70px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+#myChart{
+    margin: 20px;
+    width: 600px;
+    background-color: #dbcab4;
+    padding: 20px;
+}
+
+#grafica1{
+    background-color:honeydew;
+    height: 600px;
+    margin-left: 70px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;margin: 30px;
+}
+#myChart2{
+    margin: 20px;
+    width: 800px;
+    background-color: honeydew;
+    padding: 20px;
+}
+
+#grafica2{
+    background-color:#ecd885;
+    height: 600px;
+    margin-left: 70px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;margin: 30px;
+}
+#myChart3{
+    margin: 20px;
+    width: 800px;
+    background-color: #ecd885;
+    padding: 20px;
+}

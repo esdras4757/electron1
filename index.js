@@ -11,6 +11,8 @@ require ( 'electron-reload' ) ( __dirname ,  {
 let mainWindow
 let addClientWindow
 let addNotaWindow
+let addIngresoWindow
+let addEgresoWindow
 
 app.on('ready',()=>{
     mainWindow=new BrowserWindow({
@@ -101,6 +103,88 @@ ipcMain.on('nuevasnotas' , (event) =>{
     mainWindow.reload();
 })
 
+ipcMain.on('agregarIngreso', (event) => {
+    addIngresoWindow=new BrowserWindow({
+        width:500,
+        height:500,
+        parent:mainWindow,
+        modal:true,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        }
+       
+    })
+
+    addIngresoWindow.loadFile('views/newIngreso.html')
+})
+
+
+
+ipcMain.on('agregarEgreso', (event) => {
+    addEgresoWindow=new BrowserWindow({
+        width:500,
+        height:500,
+        parent:mainWindow,
+        modal:true,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        }
+       
+    })
+
+    addEgresoWindow.loadFile('views/newEgreso.html')
+})
+
+ipcMain.on('nuevosgastos' , (event) =>{
+    mainWindow.reload();
+})
+
+ipcMain.on('editarGasto' , (event , mensaje) =>{
+    console.log(mensaje)
+    addEgresoWindow=new BrowserWindow({
+        width:500,
+        height:500,
+        parent:mainWindow,
+        modal:true,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        }
+        
+})
+addEgresoWindow.loadFile('views/edicionGasto.html')
+addEgresoWindow.on('ready-to-show',()=>{
+    setTimeout(() => {
+   addEgresoWindow.webContents.send('Idgastorecibido',mensaje)
+    }, 100);
+})
+})
+ipcMain.on('nuevoingreso' , (event) =>{
+    mainWindow.reload();
+})
+
+ipcMain.on('editarIngresos' , (event , mensaje) =>{
+    console.log(mensaje)
+    addIngresoWindow=new BrowserWindow({
+        width:500,
+        height:500,
+        parent:mainWindow,
+        modal:true,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        }
+        
+})
+addIngresoWindow.loadFile('views/IngresoEdit.html')
+addIngresoWindow.on('ready-to-show',()=>{
+    setTimeout(() => {
+        addIngresoWindow.webContents.send('Idingresorecibido',mensaje)
+    }, 100);
+})
+})
 ipcMain.on('editarNota' , (event , mensaje) =>{
     console.log(mensaje)
     addNotaWindow=new BrowserWindow({
@@ -143,3 +227,49 @@ ipcMain.on('editarCliente', (event,mensaje) => {
         }, 100);
     })
 })         
+
+ipcMain.on('grafica' , (event , mensaje) =>{
+    console.log(mensaje)
+    mainWindow.reload();
+    addIngresoWindow=new BrowserWindow({
+        width:800,
+        height:800,
+        parent:mainWindow,
+        modal:true,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        }
+    })
+
+    addIngresoWindow.loadFile('views/grafica.html')
+
+    addIngresoWindow.on('ready-to-show',()=>{
+        setTimeout(() => {
+       addIngresoWindow.webContents.send('recibirIding',mensaje)
+        }, 100);
+    })
+})
+
+ipcMain.on('grafica2' , (event , mensaje) =>{
+    console.log(mensaje)
+    mainWindow.reload();
+    addIngresoWindow=new BrowserWindow({
+        width:2000,
+        height:800,
+        parent:mainWindow,
+        modal:true,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        }
+    })
+
+    addIngresoWindow.loadFile('views/grafica2.html')
+
+    addIngresoWindow.on('ready-to-show',()=>{
+        setTimeout(() => {
+       addIngresoWindow.webContents.send('recibirIdingresos',mensaje)
+        }, 100);
+    })
+})

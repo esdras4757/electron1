@@ -5,9 +5,15 @@ const buttonAddUser = document.querySelector('#btnAgregarCliente')
 
 let listaclientes = JSON.parse(localStorage.getItem('clientes'))
 let listaNotas = JSON.parse(localStorage.getItem('notas'))
+let listaGastos = JSON.parse(localStorage.getItem('gastos'));
+let listaIngresos = JSON.parse(localStorage.getItem('ingresos'));
+let listaComp =JSON.parse(localStorage.getItem('comparar'));
 let diaFromLS = localStorage.getItem('dia')
 
 var changeDivisa = document.querySelector('#changeDivisa')
+const Aingreso = document.querySelector('#agregar-ingreso');
+const listaegresos = document.querySelector('#listegresos')
+const Aegreso = document.querySelector('#agregar-egreso');
 const buttonAddNota = document.querySelector('#agregar');
 const buttonEditarCliente = document.querySelector('#lista');
 const buttonEditarCliente2 = document.querySelector('#listaCompleta')
@@ -22,6 +28,16 @@ const BtnEditarNotas = document.querySelector('#listadoNotas');
 const BtnEditarNotas2 = document.querySelector('#ListaNotas');
 const cantidadNotas = document.querySelector('#notareciente')
 const buscador = document.querySelector('#buscador');
+const btneliminargasto = document.querySelector('#listegresos');
+const busegreso = document.querySelector('#buscador-egreso');
+const totalgasto = document.querySelector('#totaldefinitivo');
+const listaingresos = document.querySelector('#lista-ingresos');
+const btneliminaringresos = document.querySelector('#lista-ingresos');
+const btneditaringreso = document.querySelector('#liingresosclientes')
+const buscaringreso = document.querySelector('#buscador-ingresos')
+const listaingresoclientes = document.querySelector('#liingresosclientes');
+const btngrafica = document.querySelector('#btngrafica');
+const btngrafica2 = document.querySelector('#btngrafica2');
 
 
 var divisaTolocalstorage = {};
@@ -64,11 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
-
-    // fin consumo de api para cambio de divisa
-
-
+// fin consumo de api para cambio de divisa
+    
+    
+    
     console.log('listooo');
     if (!listaclientes) {
         listaclientes = []
@@ -77,8 +92,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!listaNotas) {
         listaNotas = []
     }
+    if (!listaGastos) {
+        listaGastos = []
+    }
+    if (!listaIngresos) {
+        listaIngresos = []
+    }
 
-
+    
+    
     if (cantidadClientes) {
         cantidadClientes.textContent = listaclientes.length
     }
@@ -121,8 +143,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    
+
     let total = 0
+    
     if (ingresos) {
         listaclientes.forEach(element => {
             if (element.divisa == 'USD') {
@@ -130,18 +153,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 total += parseFloat(valorConvertidoMXN)
             }
             else {
-                total += parseFloat(element.inversion)
+                total += parseFloat(element.inversion) 
             }
 
         });
-        ingresos.textContent = `${total} MXN`;
+        listaIngresos.forEach(element => {
+            total += parseFloat(element.totalin)
+        })
+        ingresos.textContent = `+${total} MXN`;
     }
 
+   
+    
 
+    
+    let gastado = 0
+    if(totalgasto){
+       listaGastos.forEach(element => {
+           gastado += parseFloat(element.total)
+       });
+
+       const  gastol= document.createElement('h4')
+        gastol.textContent = `Total gasto: -${gastado}`
+        gastol.classList.add = "p-5 text-center"
+       totalgasto.appendChild(gastol) 
+    }
+
+   
 
     eventListeners();
     ui.mostrarClientes()
     ui.mostrarnotas();
+    ui.mostraringresos();
+    ui.mostraregresos();
     consultarValorDolar()
 
 })
@@ -178,8 +222,45 @@ function eventListeners() {
         buscador.addEventListener('keyup', buscarNota);
     }
 
+    if (Aegreso) {
+        Aegreso.addEventListener('click', agregarEgreso);
+    }
+
+    if (Aingreso) {
+        Aingreso.addEventListener('click', agregarIngreso);
+    }
+
+    if(btneliminargasto){
+        btneliminargasto.addEventListener('click' , eliminargasto);
+    }
+
+    if(busegreso){
+        busegreso.addEventListener('keyup' , buscaregreso)
+    }
+
+    if(btneliminaringresos){
+        btneliminaringresos.addEventListener('click' , eliminaringreso);
+    }
+
+    if(buscaringreso){
+        buscaringreso.addEventListener('keyup' , buscadorIngreso);
+    }
+
+   
+    if(btneditaringreso){
+        btneditaringreso.addEventListener('click' , editarcliente)
+    }
+
+    if(btngrafica){
+        btngrafica.addEventListener('click' , vergrafica);
+    }
+
+    if(btngrafica2){
+        btngrafica2.addEventListener('click' , vergrafica2);
+    }
 
 }
+
 
 
 // clases
@@ -187,6 +268,7 @@ function eventListeners() {
 class UI {
     constructor() {
     }
+
 
     mensajeError(mensaje, tipo) {
 
@@ -211,6 +293,9 @@ class UI {
 
     }
 
+
+
+
     alerta(mensaje, tipo) {
         const formulario = document.querySelector('#form')
 
@@ -234,10 +319,38 @@ class UI {
     }
 
     mostrarClientes(lista = listaclientes) {
+       
 
         const dolar = consultarValorDolar();
 
         let listaclientesparcial
+
+        if (listaingresoclientes) {
+            listaclientes.reverse().forEach(cliente => {
+
+                const clientehtml = document.createElement('li')
+                clientehtml.classList.add('list-unstyled', 'd-flex')
+                clientehtml.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="svg-ingresos" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+            <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+            <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2H3z"/>
+            </svg>
+                    <ul id="column" class="d-flex">
+                            <li id="nombre" data-id=${cliente.id}>${cliente.nombre}--${cliente.apellido} </li> 
+                            <li id="inversion">+${cliente.inversion}</li>
+                            <li id="idv" class="d-none">${cliente.id} </li> 
+                    </ul>
+                    
+                    <button class="editar btn btn-primary m-1" data-id=${cliente.id}>editar</button>
+                    <button class="eliminar btn btn-danger m-1" data-id=${cliente.id}>eliminar</button>
+                `
+
+                if (listaingresoclientes) {
+                    listaingresoclientes.appendChild(clientehtml)
+                }
+            });
+
+        }
 
         if (ulLista) {
             listaclientesparcial = listaclientes.slice(-5)
@@ -326,44 +439,115 @@ class UI {
                 if (ulLista2) {
                     ulLista2.appendChild(clientehtml)
                 }
-
-
-
+               
             });
 
 
+            // changeDivisa=document.querySelector('#changeDivisa')
 
+            // if (changeDivisa) {
+            //     changeDivisa.addEventListener('change',switchDLSMXN)
+            // }
 
         }
 
-
-        // changeDivisa=document.querySelector('#changeDivisa')
-
-        // if (changeDivisa) {
-        //     changeDivisa.addEventListener('change',switchDLSMXN)
-        // }
+       
 
     }
+
+    mostraringresos(listado = listaGastos) {
+        if(listaegresos){
+        limpiarHTMLegresos();
+        if (listado.length <= 0) {
+
+            const compi = document.createElement('h4')
+            compi.textContent = 'No hay gastos agregados'
+            compi.className = "p-5 text-center "
+            btneliminargasto.appendChild(compi)
+            console.log('no hay gastos')
+
+            return
+        }
+        listado.reverse().forEach(gasto => {
+            const gastohtml = document.createElement('li');
+            gastohtml.classList.add('list-unstyled', 'd-flex' );
+            gastohtml.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-ingresos" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+            <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+            <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2H3z"/>
+            </svg>
+            <ul id="column" class="d-flex">
+                <li  data-id=${gasto.id} >${gasto.gastonuevo}</li> 
+                <li >-${gasto.total} </li> 
+             </ul>
+            <button class="editar btn btn-primary m-1" data-id=${gasto.id}>Editar</button>
+            <button class="eliminar btn btn-danger m-1" data-id=${gasto.id}>Eliminar</button>
+            `
+
+            listaegresos.appendChild(gastohtml)
+        });
+
+    }
+
+    }
+
+    mostraregresos(listain = listaIngresos){
+        if(listaingresos){
+            limpiarHTMLingresos();
+        if ((listain.length || listaclientes) <= 0) {
+
+            const compi = document.createElement('h4')
+            compi.textContent = 'No hay ingresos agregados'
+            compi.className = "p-5 text-center "
+            btneliminaringresos.appendChild(compi)
+            console.log('no hay ingreso')
+
+            return;
+        }
+        listain.reverse().forEach(ingreso => {
+            const ingresohtml = document.createElement('li');
+            ingresohtml.classList.add('list-unstyled', 'd-flex' );
+            ingresohtml.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-ingresos" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+            <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+            <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2H3z"/>
+            </svg>
+            <ul id="column" class="d-flex">
+                <li  data-id=${ingreso.id} >${ingreso.ingresonuevo}</li> 
+                <li >+${ingreso.totalin} </li> 
+             </ul>
+            <button class="editar btn btn-primary m-1" data-id=${ingreso.id}>Editar</button>
+            <button class="eliminar btn btn-danger m-1" data-id=${ingreso.id}>Eliminar</button>
+            `
+
+            listaingresos.appendChild(ingresohtml)
+        });
+
+    }
+        }
+
+    
+
 
     mostrarnotas(listas = listaNotas) {
         let listanotitas
 
-        
-        if(cantidadNotas){
+
+        if (cantidadNotas) {
             listanotitas = listaNotas.slice(-1)
         }
-        if(cantidadNotas){
+        if (cantidadNotas) {
             listanotitas.reverse().forEach(nota => {
 
                 const notahtml = document.createElement('p')
-                notahtml.classList.add('text-center' , 'h5')
+                notahtml.classList.add('text-center', 'h5')
                 notahtml.innerHTML = `
                
                             <p class="card-text">${nota.notaNueva}</p>
                                 
                 `
-               
-                if(cantidadNotas){
+
+                if (cantidadNotas) {
                     cantidadNotas.appendChild(notahtml)
                 }
             });
@@ -402,7 +586,7 @@ class UI {
                 if (listadoNotas2) {
                     listadoNotas2.appendChild(notahtml)
                 }
-               
+
 
             });
 
@@ -424,7 +608,7 @@ class UI {
             }
             listas.reverse().forEach(nota => {
 
-               
+
                 const notahtml = document.createElement('li')
                 notahtml.classList.add('list-unstyled', 'd-inline-block')
                 notahtml.innerHTML = `
@@ -451,7 +635,7 @@ class UI {
                 if (listadoNotas2) {
                     listadoNotas2.appendChild(notahtml)
                 }
-               
+
 
 
 
@@ -469,7 +653,7 @@ class Clientes {
     }
 
     agregar(nombre, apellido, pais, numero, correo, inversion, divisa, modalidad, forma) {
-
+     
 
         const objetoCliente = {
             nombre,
@@ -543,7 +727,7 @@ class Notas {
     }
     agregando(notaNueva) {
         const objetoNota = {
-            
+
             notaNueva,
             id: Date.now(),
         }
@@ -552,13 +736,13 @@ class Notas {
         localStorage.setItem('notas', JSON.stringify(listaNotas))
     }
 
-    editada(notaNueva , id) {
+    editada(notaNueva, id) {
         const NotasLocal = JSON.parse(localStorage.getItem('notas'))
 
         console.log(NotasLocal)
 
         const objetoNota = {
-           notaNueva,
+            notaNueva,
             id
         }
 
@@ -578,7 +762,7 @@ class Notas {
 
     }
 
-   Borrar (id) {
+    Borrar(id) {
         const notasLocalStorage = JSON.parse(localStorage.getItem('notas'))
         const FilteernotasLocalStorage = notasLocalStorage.filter((nota) => {
             return nota.id != id;
@@ -592,10 +776,130 @@ class Notas {
 
 }
 
+class Gastos {
+
+    constructor(total){
+        this.objetoGasto = Number(total);
+    }
+    agregandogastos(gastonuevo, total) {
+        const objetoGasto = {
+
+            gastonuevo,
+            total,
+            id: Date.now(),
+        }
+
+        listaGastos.push(objetoGasto)
+        localStorage.setItem('gastos', JSON.stringify(listaGastos))
+        console.log(objetoGasto)
+    }
+
+    editados(gastonuevo, total, idn) {
+        const GastosLocal = JSON.parse(localStorage.getItem('gastos'))
+
+        console.log(GastosLocal)
+
+        const objetoGasto = {
+            gastonuevo,
+            total,
+            id: idn,
+        }
+
+        console.log(objetoGasto)
+
+        const gastosLocalFilter = GastosLocal.filter((gasto) => {
+            return gasto.id != idn
+        })
+
+        console.log(gastosLocalFilter)
+
+        gastosLocalFilter.push(objetoGasto)
+
+        console.log(gastosLocalFilter)
+
+        localStorage.setItem('gastos', JSON.stringify(gastosLocalFilter))
+
+    }
+
+    Borrargasto(id) {
+        const gastoLocalStorage = JSON.parse(localStorage.getItem('gastos'))
+        const FilteergastosLocalStorage = gastoLocalStorage.filter((gasto) => {
+            return gasto.id != id;
+        })
+
+        console.log(FilteergastosLocalStorage)
+
+        localStorage.setItem('gastos', JSON.stringify(FilteergastosLocalStorage))
+        ipc.send('nuevosgastos')
+    }
+}
+
+class Ingresos{
+
+        constructor(totalin){
+            this.objetoIngreso = Number(totalin);
+        }
+    
+    agregandoingreso(ingresonuevo , totalin){
+        const objetoIngreso = {
+            ingresonuevo,
+            totalin,
+            id: Date.now()
+        }
+
+        listaIngresos.push(objetoIngreso);
+        localStorage.setItem('ingresos', JSON.stringify(listaIngresos))
+        console.log(objetoIngreso)
+
+    }
+
+    editando(ingresonuevo, totalin, idn) {
+        const IngresosLocal = JSON.parse(localStorage.getItem('ingresos'))
+
+        console.log(IngresosLocal)
+
+        const objetoIngreso = {
+            ingresonuevo,
+            totalin,
+            id: idn,
+        }
+
+        console.log(objetoIngreso)
+
+        const ingresoLocalFilter = IngresosLocal.filter((ingreso) => {
+            return ingreso.id != idn
+        })
+
+        console.log(ingresoLocalFilter)
+
+        ingresoLocalFilter.push(objetoIngreso)
+
+        console.log(ingresoLocalFilter)
+
+        localStorage.setItem('ingresos', JSON.stringify(ingresoLocalFilter))
+
+    }
+
+    Borraringreso(id) {
+        const ingresoLocalStorage = JSON.parse(localStorage.getItem('ingresos'))
+        const FilteeringresoLocalStorage = ingresoLocalStorage.filter((ingreso) => {
+            return ingreso.id != id;
+        })
+
+        console.log(FilteeringresoLocalStorage)
+
+        localStorage.setItem('ingresos', JSON.stringify(FilteeringresoLocalStorage))
+        ipc.send('nuevoingreso')
+    }
+}
+
+
 
 export const cliente = new Clientes();
 export const ui = new UI()
 export const notas = new Notas();
+export const gastos = new Gastos();
+export const ingresos2 = new Ingresos();
 // instancia
 
 // funciones
@@ -606,6 +910,23 @@ function agregarCliente() {
 function agregarNota() {
     ipc.send('agregarNota');
 }
+
+function agregarIngreso() {
+    ipc.send('agregarIngreso');
+}
+
+function agregarEgreso() {
+    ipc.send('agregarEgreso');
+}
+
+function vergrafica(){
+    ipc.send('grafica')
+}
+
+function vergrafica2(){
+    ipc.send('grafica2')
+}
+
 
 function editarcliente(e) {
     if (e.target.classList.contains('editar')) {
@@ -620,13 +941,37 @@ function editarcliente(e) {
     }
 }
 
-function eliminarNota(e){
+function eliminarNota(e) {
     if (e.target.classList.contains('editar')) {
         console.log(e.target.dataset.id)
         ipc.send('editarNota', e.target.dataset.id)
     }
     if (e.target.classList.contains('eliminar')) {
         notas.Borrar(e.target.dataset.id)
+    }
+}
+
+function eliminargasto(e){
+    if(e.target.classList.contains('eliminar')){
+        gastos.Borrargasto(e.target.dataset.id)
+        console.log('borrando')
+    }
+
+    if(e.target.classList.contains('editar')){
+        console.log(e.target.dataset.id)
+        ipc.send('editarGasto' , e.target.dataset.id);
+    }
+}
+
+function eliminaringreso(e){
+    if(e.target.classList.contains('eliminar')){
+        ingresos2.Borraringreso(e.target.dataset.id)
+        console.log('borrando')
+    }
+
+    if(e.target.classList.contains('editar')){
+        console.log(e.target.dataset.id)
+        ipc.send('editarIngresos' , e.target.dataset.id);
     }
 }
 function buscarCliente(e) {
@@ -640,7 +985,7 @@ function buscarCliente(e) {
     ui.mostrarClientes(listaclientesFilter.reverse())
 }
 
-function buscarNota(e){
+function buscarNota(e) {
     console.log(e.target.value)
 
     const listanotasFilter = listaNotas.filter((element) => {
@@ -650,18 +995,57 @@ function buscarNota(e){
     ui.mostrarnotas(listanotasFilter.reverse())
 }
 
+function buscaregreso(e) {
+    console.log(e.target.value)
+
+    const listaegresoFilter = listaGastos.filter((element) => {
+        return element.gastonuevo.toUpperCase().includes(e.target.value.toUpperCase())
+    })
+
+    ui.mostraringresos(listaegresoFilter.reverse())
+}
+
+function buscadorIngreso(e) {
+    console.log(e.target.value)
+
+    
+    const listaingresoFilter = listaIngresos.filter((element) => {
+        return element.ingresonuevo.toUpperCase().includes(e.target.value.toUpperCase())
+    })
+   
+    ui.mostraregresos(listaingresoFilter.reverse())
+}
+
+
+
 
 function limpiarhtml() {
     while (ulLista2.firstChild) {
         ulLista2.removeChild(ulLista2.firstChild)
     }
+
 }
 
-function limpiarHTML(){
+function limpiarHTMLegresos() {
+    while (listaegresos.firstChild) {
+        listaegresos.removeChild(listaegresos.firstChild)
+    }
+   
+}
+
+function limpiarHTMLingresos() {
+    while (listaingresos.firstChild) {
+        listaingresos.removeChild(listaingresos.firstChild)
+    }
+   
+}
+
+function limpiarHTML() {
     while (listadoNotas2.firstChild) {
         listadoNotas2.removeChild(listadoNotas2.firstChild)
     }
 }
+
 
 function consultarValorDolar() {
     let dolar = JSON.parse(localStorage.getItem('divisa')).info.rate
